@@ -19,7 +19,7 @@ Clean your nozzle by wiping it on a defined “pad” area on the bed (silicone 
 4. Waits for target temperature (if needed).
 5. Drops to a wipe height.
 6. Wipes back and forth for a number of passes.
-7. Lifts to a safe Z and optionally turns the heater off.
+7. Lifts to a safe Z and optionally turns the hotend off.
 8. Restores prior gcode state.
 
 ### What you need
@@ -59,14 +59,14 @@ NOZZLE_CLEAN TEMP=210 PASSES=8
 NOZZLE_CLEAN Z=0.6
 ```
 
-### Keep the heater on when complete
+### Keep the hotend on when complete
 ```gcode id="mnzeqm"
-NOZZLE_CLEAN KEEP_HEATER_ON=1
+NOZZLE_CLEAN KEEP_HOTEND_ON=1
 ```
 
-### Turn the heater off when complete
+### Turn the hotend off when complete
 ```gcode id="p32y1v"
-NOZZLE_CLEAN KEEP_HEATER_ON=0
+NOZZLE_CLEAN KEEP_HOTEND_ON=0
 ```
 
 ---
@@ -101,7 +101,7 @@ Edit these values to match your machine and pad location.
 |---|---|
 | `variable_default_temp` | Default cleaning temperature if `TEMP` not provided |
 | `variable_default_passes` | Default number of wipe passes |
-| `variable_default_keep_heater_on` | `1` keep heater on, `0` turn heater off |
+| `variable_default_keep_hotend_on` | `1` keep hotend on, `0` turn hotend off |
 | `variable_always_heat` | `True` always heat/wait to `TEMP`; `False` only heat/wait if below `(TEMP-2)` |
 
 ---
@@ -118,7 +118,7 @@ Clean the nozzle using the configured pad.
 | `TEMP` | int | `default_temp` | Nozzle cleaning temperature in °C |
 | `PASSES` | int | `default_passes` | Number of wipe passes |
 | `Z` | float | `pad_z` | Override wipe height (absolute Z) for this run |
-| `KEEP_HEATER_ON` | int (0/1) | `default_keep_heater_on` | Keep nozzle hot afterward (1) or turn off (0) |
+| `KEEP_HOTEND_ON` | int (0/1) | `default_keep_hotend_on` | Keep nozzle hot afterward (1) or turn off (0) |
 
 ### Behavior details
 - **State safety:** Uses `SAVE_GCODE_STATE` / `RESTORE_GCODE_STATE` to preserve modes/settings.
@@ -130,7 +130,7 @@ Clean the nozzle using the configured pad.
 
 ### Example
 ```gcode id="m4dxa5"
-NOZZLE_CLEAN TEMP=205 PASSES=6 Z=0.8 KEEP_HEATER_ON=1
+NOZZLE_CLEAN TEMP=205 PASSES=6 Z=0.8 KEEP_HOTEND_ON=1
 ```
 
 ---
@@ -223,7 +223,7 @@ Then:
 4. **Run a real cleaning**
    - Example:
      ```gcode
-     NOZZLE_CLEAN TEMP=200 PASSES=5 KEEP_HEATER_ON=1
+     NOZZLE_CLEAN TEMP=200 PASSES=5 KEEP_HOTEND_ON=1
      ```
 
 ---
