@@ -8,6 +8,7 @@ Clean your nozzle by wiping it on a defined "pad" area on the bed (silicone brus
 - `NOZZLE_CLEAN_TEST` (safe dry-run: no heat, runs at Z=10)
 - `NOZZLE_PAD_EDGE` (trace pad perimeter to validate geometry)
 - `NOZZLE_PAD_Z` (display the calculated cleaning Z height)
+- `NOZZLE_PAD_PATTERNS` (list available wipe patterns)
 
 ---
 
@@ -41,6 +42,7 @@ Clean your nozzle by wiping it on a defined "pad" area on the bed (silicone brus
    - `pad.cfg`
    - `Patterns/pattern0.cfg`
    - `Patterns/pattern1.cfg`
+   - `Patterns/pattern2.cfg`
 
 2. Include `nozzle-clean.cfg` from your `printer.cfg`:
 
@@ -111,12 +113,13 @@ Edit these values to match the position and size of your cleaning pad.
 | `variable_base_height` | Height of the solid base portion of the pad — the nozzle should not drop below this point |
 | `variable_brush_height` | Height of the brush/wiper portion above the base |
 | `variable_nozzle_height` | The exposed portion of the nozzle tip that needs cleaning |
+| `variable_z` | Vertical offset of the pad from the build plate (0 = on the plate, negative = below, positive = above) |
 
 > **Tip:** `variable_x` and `variable_y` define the **minimum corner** of the pad. `variable_width` and `variable_depth` extend positively from that corner.
 
 > **Wipe Z is calculated automatically** from the pad geometry:
-> - If `nozzle_height > brush_height`: `wipe_z = base_height` (nozzle fully enters the brush)
-> - Otherwise: `wipe_z = base_height + (brush_height - nozzle_height)` (nozzle contacts brush top)
+> - If `nozzle_height > brush_height`: `wipe_z = base_height + z` (nozzle fully enters the brush)
+> - Otherwise: `wipe_z = base_height + brush_height - nozzle_height + z` (nozzle contacts brush top)
 >
 > Use `NOZZLE_PAD_Z` to display the calculated value before wiping.
 
@@ -140,7 +143,7 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | `variable_default_keep_hotend_on` | `1` keep hotend on, `0` turn hotend off |
 | `variable_default_retract_distance` | Default filament retract distance before cleaning (negative = retract) |
 | `variable_default_retract_f` | Default retraction feedrate (mm/min) |
-| `variable_default_wipe_pattern` | Default wipe pattern (`0` = straight line, `1` = zig-zag) |
+| `variable_default_wipe_pattern` | Default wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave) |
 | `variable_always_heat` | `True` always heat/wait to `TEMP`; `False` only heat/wait if below `(TEMP-2)` |
 
 ---
@@ -151,6 +154,7 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 |---|---|---|
 | Straight Line | `0` | Wipes back and forth in a straight line along the long axis of the pad |
 | Zig-Zag | `1` | Wipes in a zig-zag pattern covering the full pad area |
+| Wave | `2` | Wipes in a sinusoidal wave pattern along the long axis of the pad |
 
 The wipe axis (X or Y) is **automatically determined** from the pad geometry:
 - If `variable_depth > variable_width`: wipes in the **Y** direction
@@ -170,7 +174,7 @@ Clean the nozzle using the configured pad.
 |---|---:|---:|---|
 | `TEMP` | int | `default_temp` | Nozzle cleaning temperature in °C (`0` = no heating) |
 | `PASSES` | int | `default_passes` | Number of wipe passes |
-| `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag) |
+| `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave) |
 | `Z` | float | calculated from pad geometry | Override wipe height (absolute Z) for this run |
 | `KEEP_HOTEND_ON` | int (0/1) | `default_keep_hotend_on` | Keep nozzle hot afterward (1) or turn off (0) |
 | `RETRACT_DISTANCE` | float | `default_retract_distance` | Override filament retract distance (negative = retract) |
@@ -264,6 +268,20 @@ NOZZLE_PAD_Z
 
 ---
 
+### `NOZZLE_PAD_PATTERNS`
+
+Displays a list of all available wipe patterns by name.
+
+#### Usage
+```gcode
+NOZZLE_PAD_PATTERNS
+```
+
+#### What it does
+- Calls `_WIPE_PATTERN_NAME_0`, `_WIPE_PATTERN_NAME_1`, and `_WIPE_PATTERN_NAME_2` to print the name of each supported pattern via `RESPOND` (visible in the console).
+
+---
+
 ## How pad targeting works
 
 The wipe axis is automatically selected based on which pad dimension is larger.
@@ -352,6 +370,12 @@ For **Pattern 1 (Zig-Zag)**:
 ---
 
 ## Changelog
+
+- **v1.1.1** (Last Updated: 2026-03-29)
+  - Added Pattern 2 (Wave): sinusoidal wave wipe pattern (`Patterns/pattern2.cfg`).
+  - Added `variable_z` to `_NOZZLE_PAD` (`pad.cfg`) to support pads mounted above or below the build plate.
+  - Wipe Z calculation now incorporates `variable_z` offset.
+  - Added `NOZZLE_PAD_PATTERNS` macro to list all available wipe patterns.
 
 - **v1.1.0** (Last Updated: 2026-03-28)
   - Separated configuration into `parameters.cfg` (`_NOZZLE_PARAMETERS`) and `pad.cfg` (`_NOZZLE_PAD`).
