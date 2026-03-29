@@ -127,7 +127,7 @@ Safely homes the Y axis. Requires X to be homed first.
 
 #### What it does
 
-1. If X is not homed, reports an error.
+1. If X is not homed, displays an informational message and exits.
 2. If Y is homed and within `variable_y_hop`, moves Y away from the endstop.
 3. If Y is not homed, force-moves Y by `variable_y_hop`.
 4. Runs `G28.1 Y` to home Y.
@@ -147,7 +147,7 @@ Safely homes the Z axis. Requires X and Y to be homed first.
 
 #### What it does
 
-1. If X or Y is not homed, reports an error.
+1. If X or Y is not homed, displays an informational message and exits.
 2. Moves X/Y to the safe homing position (`SAFE_XY`).
 3. Runs `G28.1 Z` to home Z.
 4. Moves Z to `variable_safe_z`.
