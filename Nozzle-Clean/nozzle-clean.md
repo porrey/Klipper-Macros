@@ -131,7 +131,6 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | `variable_travelxy_f` | XY travel feedrate (mm/min) |
 | `variable_travelz_f` | Z travel feedrate (mm/min) |
 | `variable_wipe_f` | Wipe feedrate (mm/min) |
-| `variable_retract_f` | Retract feedrate (mm/min) |
 
 #### Defaults
 | Variable | Meaning |
