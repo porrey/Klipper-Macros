@@ -334,6 +334,47 @@ For **Pattern 1 (Zig-Zag)**:
 
 ---
 
+## Running on Every Print
+
+To automatically clean the nozzle before each print, add the `NOZZLE_CLEAN` call to your print start sequence. The ideal location is **right after `M109 S{EXTRUDER_TEMP}`** (wait for extruder temperature) and **before drawing the purge line**.
+
+Pass `TEMP={EXTRUDER_TEMP}` so the macro uses the correct printing temperature, and use `KEEP_HOTEND_ON=1` to keep the nozzle hot for the purge line that follows.
+
+### Option 1: In the slicer start G-code
+
+Add `NOZZLE_CLEAN` directly in your slicer's custom start G-code, right after the wait-for-temperature line:
+
+```gcode
+; heat commands ...
+M109 S{EXTRUDER_TEMP}                               ; wait for extruder temperature
+NOZZLE_CLEAN TEMP={EXTRUDER_TEMP} KEEP_HOTEND_ON=1 ; clean the nozzle
+; draw purge line ...
+```
+
+> **Note:** The placeholder variable name depends on your slicer:
+> - PrusaSlicer / SuperSlicer / OrcaSlicer: `{first_layer_temperature[0]}` or `{temperature[0]}`
+> - Cura: `{material_print_temperature_layer_0}`
+>
+> Replace `{EXTRUDER_TEMP}` above with the correct placeholder for your slicer.
+
+### Option 2: In the `START_PRINT` Klipper macro
+
+If your slicer calls a Klipper `START_PRINT` macro (e.g., `START_PRINT EXTRUDER_TEMP=210 BED_TEMP=60`), add the `NOZZLE_CLEAN` call inside that macro, after the wait-for-temperature line and before drawing the purge line:
+
+```ini
+[gcode_macro START_PRINT]
+gcode:
+  {% set EXTRUDER_TEMP = params.EXTRUDER_TEMP|default(200)|int %}
+  ; ... other setup commands ...
+  M109 S{EXTRUDER_TEMP}                               ; wait for extruder temperature
+  NOZZLE_CLEAN TEMP={EXTRUDER_TEMP} KEEP_HOTEND_ON=1 ; clean the nozzle
+  ; ... draw purge line ...
+```
+
+> **Tip:** `KEEP_HOTEND_ON=1` ensures the nozzle stays at printing temperature so the purge line extrudes correctly right after cleaning.
+
+---
+
 ## Safety notes
 
 - Verify the pad area is clear and the nozzle won't collide with clips, magnets, bed screws, or printed parts.
