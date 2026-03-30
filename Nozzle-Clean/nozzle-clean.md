@@ -34,6 +34,39 @@ Clean your nozzle by wiping it on a defined "pad" area on the bed (silicone brus
 
 ---
 
+## Tips for Choosing a Pad Location
+
+Placing the cleaning pad in the right spot is essential for reliable, safe operation. Consider the following when choosing a location.
+
+### Reachability
+- The pad must be within the reachable travel range of the toolhead on **all three axes**.
+- After setting `variable_x`, `variable_y`, and the height variables in `pad.cfg`, use `NOZZLE_PAD_EDGE` to confirm the toolhead can actually reach all four corners of the pad without errors or unexpected motion.
+
+### Avoid end-stop and frame collisions
+- Do **not** place the pad so close to an axis boundary that reaching it drives a motor to its hard end point.
+- If your printer uses **physical end-stop switches**, slamming the carriage into them during every cleaning cycle will wear them out prematurely.
+- If your printer uses **sensorless (stallguard) homing**, driving the carriage into the frame to reach the pad can trigger false homing events or damage the frame and belt system.
+- Leave a comfortable margin (typically ≥ 5 mm) between the pad position and the travel limits on every axis.
+
+### Minimize impact on print area
+- Place the pad **outside the primary print area** whenever possible — ideally at a corner or edge of the bed that is rarely used for printing.
+- A pad mounted on the **front-left or front-right corner** of the bed is a common and practical choice, as it is easy to reach and does not consume usable print space.
+- If the pad sits on the bed itself, account for its physical footprint when slicing: ensure the slicer's *print area* or *bed exclusion zone* is set so prints are never placed on or near the pad.
+
+### Clear path during printing
+- Confirm that **during a normal print**, neither the nozzle, fan ducts, nor any bed probe (BLTouch, CR Touch, Klicky, Beacon, etc.) will pass over or collide with the pad.
+- Fan ducts and bed probes often extend beyond the nozzle tip in one or more directions — measure these offsets and verify clearance.
+- Run a representative print (or simulate one in your slicer) and watch the toolhead path carefully to be sure it never approaches the pad location.
+- If your printer performs an automatic bed-level or mesh-probe at the start of each print, verify that none of the probe points are positioned over the pad.
+
+### Additional tips
+- **Secure the pad firmly.** A pad that shifts or tilts mid-print can cause the nozzle to crash into it. Use adhesive, a mount, or clips to keep it in place.
+- **Use a pad with low profile clearance.** A shorter pad reduces the risk that the toolhead will strike it accidentally during travel moves or probing.
+- **Keep a thermal margin in mind.** Pads placed near the edge of a heated bed may receive residual heat. Choose a pad material that can withstand the temperatures typical at that location.
+- **Document your pad coordinates.** Once you find a good position, record the `variable_x`, `variable_y`, and height values in a comment in `pad.cfg` so you can restore them quickly after a configuration reset.
+
+---
+
 ## Installation
 
 1. Copy all files from the `Nozzle-Clean` folder into a folder called `Nozzle-Clean` on your printer (e.g. alongside your `printer.cfg`):
