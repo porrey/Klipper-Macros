@@ -42,9 +42,9 @@ Placing the cleaning pad in the right spot is essential for reliable, safe opera
 - The pad must be within the reachable travel range of the toolhead on **all three axes**.
 - After setting `variable_x`, `variable_y`, and the height variables in `pad.cfg`, use `NOZZLE_PAD_EDGE` to confirm the toolhead can actually reach all four corners of the pad without errors or unexpected motion.
 
-### Avoid end-stop and frame collisions
+### Avoid endstop and frame collisions
 - Do **not** place the pad so close to an axis boundary that reaching it drives a motor to its hard end point.
-- If your printer uses **physical end-stop switches**, slamming the carriage into them during every cleaning cycle will wear them out prematurely.
+- If your printer uses **physical endstop switches**, slamming the carriage into them during every cleaning cycle will wear them out prematurely.
 - If your printer uses **sensorless (stallguard) homing**, driving the carriage into the frame to reach the pad can trigger false homing events or damage the frame and belt system.
 - Leave a comfortable margin (typically ≥ 5 mm) between the pad position and the travel limits on every axis.
 
