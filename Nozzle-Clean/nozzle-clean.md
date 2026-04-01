@@ -457,7 +457,7 @@ gcode:
 
 ## Changelog
 
-- **v1.1.2** (Last Updated: 2026-04-01)
+- **v1.2.0** (Last Updated: 2026-04-01)
   - Added Pattern 3 (Spiral Inward): traces concentric rectangles from the pad edge inward to the center (`Patterns/pattern3.cfg`).
   - Added `variable_loop_count` to `_WIPE_PATTERN_PARAMETERS_3` to control the number of concentric rectangle loops per pass.
 
