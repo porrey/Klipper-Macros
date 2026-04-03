@@ -336,7 +336,7 @@ For **Pattern 1 (Zig-Zag)**:
 - The nozzle starts at the pad's minimum corner and sweeps diagonally across the pad surface in 10 steps per pass, reversing direction each pass to cover the full pad area.
 
 For **Pattern 3 (Spiral Inward)**:
-- The nozzle traces `variable_loop_count` concentric rectangles spiraling inward, stopping one step short of center. After all loops complete, the nozzle moves to the center of the pad to finish the pass.
+- The nozzle traces `variable_loop_count` concentric rectangles spiraling inward, stopping one step short of center. After all loops complete, the nozzle moves to the center of the pad to finish the pass. This pattern is repeated for each pass.
 - This pattern covers the entire pad surface regardless of which axis is longer.
 
 ---
