@@ -158,7 +158,7 @@ Edit these values to match the position and size of your cleaning pad.
 
 > **Wipe Z is calculated automatically** from the pad geometry:
 > - If `nozzle_height > brush_height`: `wipe_z = base_height + z` (nozzle fully enters the brush)
-> - Otherwise: `wipe_z = base_height + brush_height - nozzle_height + z` (nozzle contacts brush top)
+> - Otherwise: `wipe_z = base_height + brush_height - nozzle_height + z` (nozzle tip is submerged by the full `nozzle_height` into the brush)
 >
 > Use `NOZZLE_PAD_Z` to display the calculated value before wiping.
 
@@ -266,7 +266,7 @@ Traces the pad perimeter (optionally inset) to validate pad geometry and positio
 |---|---:|---:|---|
 | `PASSES` | int | `default_passes` | Number of perimeter loops |
 | `INSET` | float | `0.0` | Inset from pad edges (mm) |
-| `Z` | float | `base_height + brush_height + 3` | Z height to trace at (absolute) |
+| `Z` | float | `base_height + brush_height + z + 3` | Z height to trace at (absolute) |
 
 #### Usage
 Trace exact pad perimeter:
@@ -336,7 +336,7 @@ For **Pattern 1 (Zig-Zag)**:
 - The nozzle starts at the pad's minimum corner and sweeps diagonally across the pad surface in 10 steps per pass, reversing direction each pass to cover the full pad area.
 
 For **Pattern 3 (Spiral Inward)**:
-- The nozzle starts at the front-left corner of the pad and traces a series of concentric rectangles, stepping inward by an equal amount on every loop. After `variable_loop_count` loops the center of the pad is reached, then the nozzle moves to the center to finish the pass. The number of concentric rectangles per pass is set by `variable_loop_count` in `_WIPE_PATTERN_PARAMETERS_3` (`Patterns/pattern3.cfg`).
+- The nozzle traces `variable_loop_count` concentric rectangles spiraling inward, stopping one step short of center. After all loops complete, the nozzle moves to the center of the pad to finish the pass.
 - This pattern covers the entire pad surface regardless of which axis is longer.
 
 ---
