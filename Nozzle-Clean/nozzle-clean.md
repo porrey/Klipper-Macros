@@ -505,12 +505,10 @@ gcode:
 
 ## Changelog
 
-- **v1.4.0** (Last Updated: 2026-04-04)
+- **v1.3.0** (Last Updated: 2026-04-04)
   - Added Pattern 5 (Circular): elliptical loops that progress along the long axis; the forward pass traces the upper half of each loop and the return traces the lower half, covering the full pad without retracing (`Patterns/pattern5.cfg`).
   - Added `variable_circle_count` and `variable_segments_per_circle` to `_WIPE_PATTERN_PARAMETERS_5`.
   - Added `Images/pattern5.png` diagram.
-
-- **v1.3.0** (Last Updated: 2026-04-04)
   - Added Pattern 4 (Criss-Cross): traces two full diagonals across the pad forming an X shape per pass (`Patterns/pattern4.cfg`).
   - Created pattern images (`pattern0.png`–`pattern4.png`) into a dedicated `Images/` subfolder.
   - Added all image references to the documentation.
