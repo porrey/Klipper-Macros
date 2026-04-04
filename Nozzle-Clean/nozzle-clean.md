@@ -486,6 +486,10 @@ gcode:
 
 ## Changelog
 
+- **v1.3.0** (Last Updated: 2026-04-04)
+  - Moved pattern images (`pattern0.png`–`pattern4.png`) into a dedicated `Images/` subfolder.
+  - Updated all image references in the documentation to reflect the new path.
+
 - **v1.2.1** (Last Updated: 2026-04-04)
   - Added Pattern 4 (Criss-Cross): traces two full diagonals across the pad forming an X shape per pass (`Patterns/pattern4.cfg`).
 
