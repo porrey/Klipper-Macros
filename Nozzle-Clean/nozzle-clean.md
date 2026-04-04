@@ -487,12 +487,10 @@ gcode:
 ## Changelog
 
 - **v1.3.0** (Last Updated: 2026-04-04)
-  - Moved pattern images (`pattern0.png`–`pattern4.png`) into a dedicated `Images/` subfolder.
-  - Updated all image references in the documentation to reflect the new path.
-
-- **v1.2.1** (Last Updated: 2026-04-04)
   - Added Pattern 4 (Criss-Cross): traces two full diagonals across the pad forming an X shape per pass (`Patterns/pattern4.cfg`).
-
+  - Created pattern images (`pattern0.png`–`pattern4.png`) into a dedicated `Images/` subfolder.
+  - Added all image references to the documentation.
+  
 - **v1.2.0** (Last Updated: 2026-04-01)
   - Added Pattern 3 (Spiral Inward): traces concentric rectangles from the pad edge inward to the center (`Patterns/pattern3.cfg`).
   - Added `variable_loop_count` to `_WIPE_PATTERN_PARAMETERS_3` to control the number of concentric rectangle loops per pass.
