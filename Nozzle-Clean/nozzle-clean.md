@@ -208,7 +208,7 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | Wave | `2` | Wipes in a sinusoidal wave pattern along the long axis of the pad |
 | Spiral Inward | `3` | Traces concentric rectangles starting from the pad edge, stepping inward each loop until the center is reached |
 | Criss-Cross | `4` | Traces two diagonals across the pad forming an X shape, crossing the long side on each arm |
-| Pigtail | `5` | Makes circular loops that progress along the long axis; the return trip uses phase-shifted circles to cover areas missed on the forward pass |
+| Pigtail | `5` | Traces elliptical loops that progress along the long axis; the forward pass covers the upper half of each loop and the return covers the lower half so the full pad is wiped |
 
 ### Pattern Diagrams
 
@@ -382,10 +382,14 @@ For **Pattern 4 (Criss-Cross)**:
 
 For **Pattern 5 (Pigtail)**:
 - The nozzle starts at the center of the short edge at the beginning of the long axis.
-- It traces `variable_circle_count` circular loops while progressing along the full length of the pad (forward half of the pass).
-- On the return, it traces another `variable_circle_count` circles going back to the start, with each circle phase-shifted by 180° relative to the forward circles.  This interleaves the return loops with the forward loops so the two halves cover complementary areas of the pad.
+- The pad is divided into `variable_circle_count` equal slots along the long axis; each slot contains one elliptical loop.
+  - Long semi-axis of each loop = `travel_len / (2 × circle_count)` — loops fit end-to-end with no gaps.
+  - Short semi-axis = half the pad's short dimension — loops fill the full pad width.
+- **Forward pass**: traces the upper half of every loop left → right, progressing from the start of the pad to the far end.
+- **Return pass**: traces the lower half of every loop right → left, travelling back to the start.
+- The forward and return halves are complementary — together they trace complete loops and cover the entire pad surface.
 - One pass = the complete forward journey plus the return.
-- `variable_circle_count` (in `_WIPE_PATTERN_PARAMETERS_5`) controls how many circles are made in each direction; `variable_segments_per_circle` controls how smoothly each circle is approximated.
+- `variable_circle_count` (in `_WIPE_PATTERN_PARAMETERS_5`) controls how many loops are made; `variable_segments_per_circle` controls the smoothness of each half-loop.
 
 ---
 
@@ -506,8 +510,8 @@ gcode:
 ## Changelog
 
 - **v1.4.0** (Last Updated: 2026-04-04)
-  - Added Pattern 5 (Pigtail): circular loops that progress along the long axis; the return trip uses 180°-phase-shifted circles to cover complementary pad areas (`Patterns/pattern5.cfg`).
-  - Added `variable_circle_count` and `variable_segments_per_circle` to `_WIPE_PATTERN_PARAMETERS_5` to control the number of circles and smoothness.
+  - Added Pattern 5 (Pigtail): elliptical loops that progress along the long axis; the forward pass traces the upper half of each loop and the return traces the lower half, covering the full pad without retracing (`Patterns/pattern5.cfg`).
+  - Added `variable_circle_count` and `variable_segments_per_circle` to `_WIPE_PATTERN_PARAMETERS_5`.
   - Added `Images/pattern5.png` diagram.
 
 - **v1.3.0** (Last Updated: 2026-04-04)
