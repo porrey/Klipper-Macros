@@ -119,7 +119,7 @@ NOZZLE_CLEAN PATTERN=3
 NOZZLE_CLEAN PATTERN=4
 ```
 
-### Use the pigtail pattern
+### Use the circular pattern
 ```gcode
 NOZZLE_CLEAN PATTERN=5
 ```
@@ -194,7 +194,7 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | `variable_default_keep_hotend_on` | `1` keep hotend on, `0` turn hotend off |
 | `variable_default_retract_distance` | Default filament retract distance before cleaning (negative = retract) |
 | `variable_default_retract_f` | Default retraction feedrate (mm/min) |
-| `variable_default_wipe_pattern` | Default wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross, `5` = pigtail) |
+| `variable_default_wipe_pattern` | Default wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross, `5` = circular) |
 | `variable_always_heat` | `True` always heat/wait to `TEMP`; `False` only heat/wait if below `(TEMP-2)` |
 
 ---
@@ -208,7 +208,7 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | Wave | `2` | Wipes in a sinusoidal wave pattern along the long axis of the pad |
 | Spiral Inward | `3` | Traces concentric rectangles starting from the pad edge, stepping inward each loop until the center is reached |
 | Criss-Cross | `4` | Traces two diagonals across the pad forming an X shape, crossing the long side on each arm |
-| Pigtail | `5` | Traces elliptical loops that progress along the long axis; the forward pass covers the upper half of each loop and the return covers the lower half so the full pad is wiped |
+| Circular | `5` | Traces elliptical loops that progress along the long axis; the forward pass covers the upper half of each loop and the return covers the lower half so the full pad is wiped |
 
 ### Pattern Diagrams
 
@@ -224,9 +224,9 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 |:---:|
 | ![Pattern 4 – Criss-Cross](Images/pattern4.png) |
 
-| Pattern 5 — Pigtail |
+| Pattern 5 — Circular |
 |:---:|
-| ![Pattern 5 – Pigtail](Images/pattern5.png) |
+| ![Pattern 5 – Circular](Images/pattern5.png) |
 
 The wipe axis (X or Y) is **automatically determined** from the pad geometry:
 - If `variable_depth > variable_width`: wipes in the **Y** direction
@@ -246,7 +246,7 @@ Clean the nozzle using the configured pad.
 |---|---|---|---|
 | `TEMP` | int | `default_temp` | Nozzle cleaning temperature in °C (`0` = no heating) |
 | `PASSES` | int | `default_passes` | Number of wipe passes |
-| `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross, `5` = pigtail) |
+| `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross, `5` = circular) |
 | `Z` | float | calculated from pad geometry | Override wipe height (absolute Z) for this run |
 | `KEEP_HOTEND_ON` | int (0/1) | `default_keep_hotend_on` | Keep nozzle hot afterward (1) or turn off (0) |
 | `RETRACT_DISTANCE` | float | `default_retract_distance` | Override filament retract distance (negative = retract) |
@@ -380,7 +380,7 @@ For **Pattern 4 (Criss-Cross)**:
   4. Return to `(pad_x, pad_y)` along the short edge, completing the X.
 - This pattern covers the entire pad surface with two full diagonal strokes per pass.
 
-For **Pattern 5 (Pigtail)**:
+For **Pattern 5 (Circular)**:
 - The nozzle starts at the center of the short edge at the beginning of the long axis.
 - The pad is divided into `variable_circle_count` equal slots along the long axis; each slot contains one elliptical loop.
   - Long semi-axis of each loop = `travel_len / (2 × circle_count)` — loops fit end-to-end with no gaps.
@@ -510,7 +510,7 @@ gcode:
 ## Changelog
 
 - **v1.4.0** (Last Updated: 2026-04-04)
-  - Added Pattern 5 (Pigtail): elliptical loops that progress along the long axis; the forward pass traces the upper half of each loop and the return traces the lower half, covering the full pad without retracing (`Patterns/pattern5.cfg`).
+  - Added Pattern 5 (Circular): elliptical loops that progress along the long axis; the forward pass traces the upper half of each loop and the return traces the lower half, covering the full pad without retracing (`Patterns/pattern5.cfg`).
   - Added `variable_circle_count` and `variable_segments_per_circle` to `_WIPE_PATTERN_PARAMETERS_5`.
   - Added `Images/pattern5.png` diagram.
 
