@@ -77,6 +77,7 @@ Placing the cleaning pad in the right spot is essential for reliable, safe opera
    - `Patterns/pattern1.cfg`
    - `Patterns/pattern2.cfg`
    - `Patterns/pattern3.cfg`
+   - `Patterns/pattern4.cfg`
 
 2. Include `nozzle-clean.cfg` from your `printer.cfg`:
 
@@ -110,6 +111,11 @@ NOZZLE_CLEAN PATTERN=1
 ### Use the spiral inward pattern
 ```gcode
 NOZZLE_CLEAN PATTERN=3
+```
+
+### Use the criss-cross pattern
+```gcode
+NOZZLE_CLEAN PATTERN=4
 ```
 
 ### Override wipe height for a single run
@@ -182,7 +188,7 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | `variable_default_keep_hotend_on` | `1` keep hotend on, `0` turn hotend off |
 | `variable_default_retract_distance` | Default filament retract distance before cleaning (negative = retract) |
 | `variable_default_retract_f` | Default retraction feedrate (mm/min) |
-| `variable_default_wipe_pattern` | Default wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward) |
+| `variable_default_wipe_pattern` | Default wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross) |
 | `variable_always_heat` | `True` always heat/wait to `TEMP`; `False` only heat/wait if below `(TEMP-2)` |
 
 ---
@@ -195,6 +201,21 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | Zig-Zag | `1` | Wipes in a zig-zag pattern covering the full pad area |
 | Wave | `2` | Wipes in a sinusoidal wave pattern along the long axis of the pad |
 | Spiral Inward | `3` | Traces concentric rectangles starting from the pad edge, stepping inward each loop until the center is reached |
+| Criss-Cross | `4` | Traces two diagonals across the pad forming an X shape, crossing the long side on each arm |
+
+### Pattern Diagrams
+
+| Pattern 0 — Straight Line | Pattern 1 — Zig-Zag |
+|:---:|:---:|
+| ![Pattern 0 – Straight Line](Images/pattern0.png) | ![Pattern 1 – Zig-Zag](Images/pattern1.png) |
+
+| Pattern 2 — Wave | Pattern 3 — Spiral Inward |
+|:---:|:---:|
+| ![Pattern 2 – Wave](Images/pattern2.png) | ![Pattern 3 – Spiral Inward](Images/pattern3.png) |
+
+| Pattern 4 — Criss-Cross |
+|:---:|
+| ![Pattern 4 – Criss-Cross](Images/pattern4.png) |
 
 The wipe axis (X or Y) is **automatically determined** from the pad geometry:
 - If `variable_depth > variable_width`: wipes in the **Y** direction
@@ -211,10 +232,10 @@ Clean the nozzle using the configured pad.
 
 #### Parameters
 | Parameter | Type | Default | Description |
-|---|---:|---:|---|
+|---|---|---|---|
 | `TEMP` | int | `default_temp` | Nozzle cleaning temperature in °C (`0` = no heating) |
 | `PASSES` | int | `default_passes` | Number of wipe passes |
-| `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward) |
+| `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross) |
 | `Z` | float | calculated from pad geometry | Override wipe height (absolute Z) for this run |
 | `KEEP_HOTEND_ON` | int (0/1) | `default_keep_hotend_on` | Keep nozzle hot afterward (1) or turn off (0) |
 | `RETRACT_DISTANCE` | float | `default_retract_distance` | Override filament retract distance (negative = retract) |
@@ -263,7 +284,7 @@ Traces the pad perimeter (optionally inset) to validate pad geometry and positio
 
 #### Parameters
 | Parameter | Type | Default | Description |
-|---|---:|---:|---|
+|---|---|---|---|
 | `PASSES` | int | `default_passes` | Number of perimeter loops |
 | `INSET` | float | `0.0` | Inset from pad edges (mm) |
 | `Z` | float | `base_height + brush_height + z + 3` | Z height to trace at (absolute) |
@@ -319,7 +340,7 @@ NOZZLE_PAD_PATTERNS
 ```
 
 #### What it does
-- Calls `_WIPE_PATTERN_NAME_0`, `_WIPE_PATTERN_NAME_1`, `_WIPE_PATTERN_NAME_2`, and `_WIPE_PATTERN_NAME_3` to print the name of each supported pattern via `RESPOND` (visible in the console).
+- Calls `_WIPE_PATTERN_NAME_0`, `_WIPE_PATTERN_NAME_1`, `_WIPE_PATTERN_NAME_2`, `_WIPE_PATTERN_NAME_3`, and `_WIPE_PATTERN_NAME_4` to print the name of each supported pattern via `RESPOND` (visible in the console).
 
 ---
 
@@ -338,6 +359,14 @@ For **Pattern 1 (Zig-Zag)**:
 For **Pattern 3 (Spiral Inward)**:
 - The nozzle traces `variable_loop_count` concentric rectangles spiraling inward, stopping one step short of center. After all loops complete, the nozzle moves to the center of the pad to finish the pass. This pattern is repeated for each pass.
 - This pattern covers the entire pad surface regardless of which axis is longer.
+
+For **Pattern 4 (Criss-Cross)**:
+- The nozzle starts at the pad's minimum corner `(pad_x, pad_y)` and traces an X shape across the full pad each pass:
+  1. Diagonal to the opposite corner, crossing the long side.
+  2. Move to the adjacent corner along the short edge.
+  3. Diagonal back across the long side to the opposite corner.
+  4. Return to `(pad_x, pad_y)` along the short edge, completing the X.
+- This pattern covers the entire pad surface with two full diagonal strokes per pass.
 
 ---
 
@@ -456,6 +485,13 @@ gcode:
 ---
 
 ## Changelog
+
+- **v1.3.0** (Last Updated: 2026-04-04)
+  - Moved pattern images (`pattern0.png`–`pattern4.png`) into a dedicated `Images/` subfolder.
+  - Updated all image references in the documentation to reflect the new path.
+
+- **v1.2.1** (Last Updated: 2026-04-04)
+  - Added Pattern 4 (Criss-Cross): traces two full diagonals across the pad forming an X shape per pass (`Patterns/pattern4.cfg`).
 
 - **v1.2.0** (Last Updated: 2026-04-01)
   - Added Pattern 3 (Spiral Inward): traces concentric rectangles from the pad edge inward to the center (`Patterns/pattern3.cfg`).
