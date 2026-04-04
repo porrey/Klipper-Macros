@@ -257,7 +257,7 @@ HOMING_STATUS_Z
 ## Changelog
 
 - **v1.3.0** (Last Updated: 2026-04-04)
-  - No changes (changes to nozzle clean only)
+  - Added header to each file.
 
 - **v1.2.0** (Last Updated: 2026-04-01)
   - No changes (changes to nozzle clean only)
