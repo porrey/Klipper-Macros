@@ -232,7 +232,7 @@ Clean the nozzle using the configured pad.
 
 #### Parameters
 | Parameter | Type | Default | Description |
-|---|---:|---:|---|
+|---|---|---|---|
 | `TEMP` | int | `default_temp` | Nozzle cleaning temperature in °C (`0` = no heating) |
 | `PASSES` | int | `default_passes` | Number of wipe passes |
 | `PATTERN` | int | `default_wipe_pattern` | Wipe pattern (`0` = straight line, `1` = zig-zag, `2` = wave, `3` = spiral inward, `4` = criss-cross) |
@@ -284,7 +284,7 @@ Traces the pad perimeter (optionally inset) to validate pad geometry and positio
 
 #### Parameters
 | Parameter | Type | Default | Description |
-|---|---:|---:|---|
+|---|---|---|---|
 | `PASSES` | int | `default_passes` | Number of perimeter loops |
 | `INSET` | float | `0.0` | Inset from pad edges (mm) |
 | `Z` | float | `base_height + brush_height + z + 3` | Z height to trace at (absolute) |
@@ -367,14 +367,6 @@ For **Pattern 4 (Criss-Cross)**:
   3. Diagonal back across the long side to the opposite corner.
   4. Return to `(pad_x, pad_y)` along the short edge, completing the X.
 - This pattern covers the entire pad surface with two full diagonal strokes per pass.
-
-| Pattern 0 | Pattern 1 | Pattern 2 |
-|:---:|:---:|:---:|
-| ![Pattern 0 – Straight Line](pattern0.png) | ![Pattern 1 – Zig-Zag](pattern1.png) | ![Pattern 2 – Wave](pattern2.png) |
-
-| Pattern 3 | Pattern 4 |
-|:---:|:---:|
-| ![Pattern 3 – Spiral Inward](pattern3.png) | ![Pattern 4 – Criss-Cross](pattern4.png) |
 
 ---
 
