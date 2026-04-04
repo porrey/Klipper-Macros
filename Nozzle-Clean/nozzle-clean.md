@@ -354,6 +354,8 @@ For **Pattern 4 (Criss-Cross)**:
   4. Return to `(pad_x, pad_y)` along the short edge, completing the X.
 - This pattern covers the entire pad surface with two full diagonal strokes per pass.
 
+![Pattern 4 — Criss-Cross wipe path](pattern4.png)
+
 ---
 
 ## Recommended setup workflow
