@@ -254,6 +254,22 @@ HOMING_STATUS_Z
 - Set `variable_safe_x` and `variable_safe_y` to a position above the center of the bed (or your probe point) so that `HOME_Z` homes Z at a safe location.
 - Set `variable_safe_z` high enough to clear any bed hardware (clips, magnets, etc.) during XY travel.
 
+## Changelog
+
+- **v1.3.0** (Last Updated: 2026-04-04)
+  - No changes (changes to nozzle clean only)
+
+- **v1.2.0** (Last Updated: 2026-04-01)
+  - No changes (changes to nozzle clean only)
+
+- **v1.1.1** (Last Updated: 2026-03-29)
+  - No changes (changes to nozzle clean only)
+
+- **v1.1.0** (Last Updated: 2026-03-28)
+  - No changes (changes to nozzle clean only)
+  
+- **v1.0.0** (Last Updated: 2026-02-27)
+  - Initial release.
 ---
 
 ## License / Attribution
