@@ -207,15 +207,15 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 
 | Pattern 0 — Straight Line | Pattern 1 — Zig-Zag |
 |:---:|:---:|
-| ![Pattern 0 – Straight Line](pattern0.png) | ![Pattern 1 – Zig-Zag](pattern1.png) |
+| ![Pattern 0 – Straight Line](Images/pattern0.png) | ![Pattern 1 – Zig-Zag](Images/pattern1.png) |
 
 | Pattern 2 — Wave | Pattern 3 — Spiral Inward |
 |:---:|:---:|
-| ![Pattern 2 – Wave](pattern2.png) | ![Pattern 3 – Spiral Inward](pattern3.png) |
+| ![Pattern 2 – Wave](Images/pattern2.png) | ![Pattern 3 – Spiral Inward](Images/pattern3.png) |
 
 | Pattern 4 — Criss-Cross |
 |:---:|
-| ![Pattern 4 – Criss-Cross](pattern4.png) |
+| ![Pattern 4 – Criss-Cross](Images/pattern4.png) |
 
 The wipe axis (X or Y) is **automatically determined** from the pad geometry:
 - If `variable_depth > variable_width`: wipes in the **Y** direction
