@@ -203,6 +203,20 @@ This macro stores behavior settings and defaults as variables. It does **not** e
 | Spiral Inward | `3` | Traces concentric rectangles starting from the pad edge, stepping inward each loop until the center is reached |
 | Criss-Cross | `4` | Traces two diagonals across the pad forming an X shape, crossing the long side on each arm |
 
+### Pattern Diagrams
+
+| Pattern 0 — Straight Line | Pattern 1 — Zig-Zag |
+|:---:|:---:|
+| ![Pattern 0 – Straight Line](pattern0.png) | ![Pattern 1 – Zig-Zag](pattern1.png) |
+
+| Pattern 2 — Wave | Pattern 3 — Spiral Inward |
+|:---:|:---:|
+| ![Pattern 2 – Wave](pattern2.png) | ![Pattern 3 – Spiral Inward](pattern3.png) |
+
+| Pattern 4 — Criss-Cross |
+|:---:|
+| ![Pattern 4 – Criss-Cross](pattern4.png) |
+
 The wipe axis (X or Y) is **automatically determined** from the pad geometry:
 - If `variable_depth > variable_width`: wipes in the **Y** direction
 - If `variable_width > variable_depth`: wipes in the **X** direction
@@ -354,7 +368,13 @@ For **Pattern 4 (Criss-Cross)**:
   4. Return to `(pad_x, pad_y)` along the short edge, completing the X.
 - This pattern covers the entire pad surface with two full diagonal strokes per pass.
 
-![Pattern 4 — Criss-Cross wipe path](pattern4.png)
+| Pattern 0 | Pattern 1 | Pattern 2 |
+|:---:|:---:|:---:|
+| ![Pattern 0 – Straight Line](pattern0.png) | ![Pattern 1 – Zig-Zag](pattern1.png) | ![Pattern 2 – Wave](pattern2.png) |
+
+| Pattern 3 | Pattern 4 |
+|:---:|:---:|
+| ![Pattern 3 – Spiral Inward](pattern3.png) | ![Pattern 4 – Criss-Cross](pattern4.png) |
 
 ---
 
